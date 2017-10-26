@@ -42,4 +42,3 @@ function displayBranches() {
   const branchesList = `<ul>${branches.map(b => '<li><strong>' + b.name + '</strong></li>').join('')}</ul>`
   document.getElementById("details").innerHTML = branchesList
 }
-
