@@ -14,9 +14,32 @@ function getRepositories(){
 }
 
 function getCommits(el) {
-  const name = el.dataset.repo
-  const req = new XMLHttpRequest()
+  const repository = el.dataset.repository;
+  const username = el.dataset.username;
+  const req = new XMLHttpRequest();
   req.addEventListener("load", displayCommits)
-  req.open("GET", 'https://api.github.com/repos/octocat/' + name + '/commits')
+  req.open("GET", 'https://api.github.com/repos/' + username + '/' + repository + '/commits')
   req.send()
 }
+
+function displayCommits() {
+  const commits = JSON.parse(this.responseText)
+  const commitsList = `<ul>${commits.map(c => '<li><strong>' + c.author.login + '</strong> - ' + c.commit.committer.name + ' - ' + c.commit.message + '</li>').join('')}</ul>`
+  document.getElementById("details").innerHTML = commitsList
+}
+
+function getBranches(el) {
+  const repository = el.dataset.repository;
+  const username = el.dataset.username;
+  const req = new XMLHttpRequest();
+  req.addEventListener("load", displayBranches)
+  req.open("GET", 'https://api.github.com/repos/' + username + '/' + repository + '/branches')
+  req.send()
+}
+
+function displayBranches() {
+  const branches = JSON.parse(this.responseText)
+  const branchesList = `<ul>${branches.map(b => '<li><strong>' + b.name + '</strong></li>').join('')}</ul>`
+  document.getElementById("details").innerHTML = branchesList
+}
+
