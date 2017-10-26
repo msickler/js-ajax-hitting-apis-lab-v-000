@@ -1,4 +1,4 @@
-function showRepositories(event, data) {
+function displayRepositories(event, data) {
   var repos = JSON.parse(this.responseText)
     console.log(repos)
     const repoList = `<ul>${repos.map(r => '<li><a href="' + r.html_url + '">' + r.name + '</a> - <a href="#" data-repository="' + r.name + '" data-username="' + r.owner.login + '" onclick="getCommits(this)">Get Commits</a> - <a href="#" data-repository="' + r.name + '" data-username="' + r.owner.login + '" onclick="getBranches(this)">Get Branches</a></li>').join('')}</ul>`
@@ -8,7 +8,7 @@ function showRepositories(event, data) {
 function getRepositories(){
   const req = new XMLHttpRequest()
   let username = document.getElementById('username').value
-  req.addEventListener("load", showRepositories);
+  req.addEventListener("load", displayRepositories);
   req.open("GET", `https://api.github.com/users/${username}/repos`)
   req.send()
 }
